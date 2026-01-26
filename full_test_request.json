@@ -1,0 +1,770 @@
+{
+  "meta": {
+    "fileName": "Konsultacija su šeimos gydytoju.m4a",
+    "date": "2021-07-14",
+    "participants": [
+      "Gydytoja",
+      "Pacientė"
+    ]
+  },
+  "transcript": [
+    {
+      "time": "00:00",
+      "speaker": "Gydytoja",
+      "text": "Sveiki. Labas rytas, prisėskit."
+    },
+    {
+      "time": "00:03",
+      "speaker": "Pacientė",
+      "text": "Ačiū."
+    },
+    {
+      "time": "00:04",
+      "speaker": "Gydytoja",
+      "text": "Papasakokit, kas nutiko."
+    },
+    {
+      "time": "00:06",
+      "speaker": "Pacientė",
+      "text": "Aš atėjau, nes man labai skauda gerklę."
+    },
+    {
+      "time": "00:09",
+      "speaker": "Gydytoja",
+      "text": "Taip, kiek dienų?"
+    },
+    {
+      "time": "00:11",
+      "speaker": "Pacientė",
+      "text": "Nu jau nuo pirmadienio."
+    },
+    {
+      "time": "00:13",
+      "speaker": "Gydytoja",
+      "text": "Tai nuo kovo trečios, teisingai?"
+    },
+    {
+      "time": "00:15",
+      "speaker": "Pacientė",
+      "text": "Panašiai, nuo vakaro, taip."
+    },
+    {
+      "time": "00:17",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Klausimas – gerklės skausmas prasidėjo taip iš lėto, sakykim, ar staiga pradėjo skaudėti gerklę?"
+    },
+    {
+      "time": "00:25",
+      "speaker": "Pacientė",
+      "text": "Nu aš pirmadienį visą dieną prastai jaučiausi ir jau vakare labai skaudėjo gerklę."
+    },
+    {
+      "time": "00:30",
+      "speaker": "Gydytoja",
+      "text": "Supratau. Ryjant skauda?"
+    },
+    {
+      "time": "00:32",
+      "speaker": "Pacientė",
+      "text": "Labai."
+    },
+    {
+      "time": "00:33",
+      "speaker": "Gydytoja",
+      "text": "Karščiavimas yra?"
+    },
+    {
+      "time": "00:35",
+      "speaker": "Pacientė",
+      "text": "Nematavau temperatūros, nes neturiu termometro, bet jaučiu, kad yra."
+    },
+    {
+      "time": "00:39",
+      "speaker": "Gydytoja",
+      "text": "Taip, supratau. Šaltkrėtis gal yra?"
+    },
+    {
+      "time": "00:41",
+      "speaker": "Pacientė",
+      "text": "Šalta, taip, labai šalta."
+    },
+    {
+      "time": "00:43",
+      "speaker": "Gydytoja",
+      "text": "Šalta. Kalbant apie kitus simptomus, gal yra, pavyzdžiui, sloga?"
+    },
+    {
+      "time": "00:49",
+      "speaker": "Pacientė",
+      "text": "Ne, slogos nėra, bet galvą skauda, labai silpna... Visą savaitę iš namų dirbau. Bet nu tikrai taip norisi pagulėti, miegu daug labai ir vis tiek atrodo noriu miego."
+    },
+    {
+      "time": "01:03",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Nekostit?"
+    },
+    {
+      "time": "01:05",
+      "speaker": "Pacientė",
+      "text": "Ne."
+    },
+    {
+      "time": "01:06",
+      "speaker": "Gydytoja",
+      "text": "Nedūstat? Sunkumo krūtinėj tokio nėra?"
+    },
+    {
+      "time": "01:09",
+      "speaker": "Pacientė",
+      "text": "Ne, tik gerklėj."
+    },
+    {
+      "time": "01:11",
+      "speaker": "Gydytoja",
+      "text": "Tik gerklėj. Tai ir prakaitavimo gausesnio irgi nėra?"
+    },
+    {
+      "time": "01:15",
+      "speaker": "Pacientė",
+      "text": "Prakaituoju, prakaituoju daug. Tik pajudu ir prakaituoju, taip."
+    },
+    {
+      "time": "01:20",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Labiau dieną ar ir naktį?"
+    },
+    {
+      "time": "01:22",
+      "speaker": "Pacientė",
+      "text": "Naktį miegu, žinokit, nieko nejaučiu."
+    },
+    {
+      "time": "01:25",
+      "speaker": "Gydytoja",
+      "text": "Nieko nejaučiat. Supratau. Širdies plakimo dažnesnio negu įprastai nejaučiat?"
+    },
+    {
+      "time": "01:30",
+      "speaker": "Pacientė",
+      "text": "Ne, nepasakyčiau."
+    },
+    {
+      "time": "01:32",
+      "speaker": "Gydytoja",
+      "text": "Supratau. Kažkokių pūlių gerklėj nejaučiat skonio, dar kažko?"
+    },
+    {
+      "time": "01:37",
+      "speaker": "Pacientė",
+      "text": "Ne, tiesiog labai labai skauda, kaip pjauna su peiliu."
+    },
+    {
+      "time": "01:41",
+      "speaker": "Gydytoja",
+      "text": "Mhm, supratau. Kiti šeimos nariai neserga?"
+    },
+    {
+      "time": "01:44",
+      "speaker": "Pacientė",
+      "text": "Vyras slogavo praeitą savaitę."
+    },
+    {
+      "time": "01:47",
+      "speaker": "Gydytoja",
+      "text": "Taip."
+    },
+    {
+      "time": "01:48",
+      "speaker": "Pacientė",
+      "text": "Bet jam ir praėjo lengvai, o man vat po to prasidėjo."
+    },
+    {
+      "time": "01:52",
+      "speaker": "Gydytoja",
+      "text": "Mhm. O vaikas sveikas?"
+    },
+    {
+      "time": "01:54",
+      "speaker": "Pacientė",
+      "text": "Taip, sveikas."
+    },
+    {
+      "time": "01:56",
+      "speaker": "Gydytoja",
+      "text": "Gal darėtės kažkokius testus namuose? COVID, gripo, streptokoko testo irgi nesidarėt?"
+    },
+    {
+      "time": "02:03",
+      "speaker": "Pacientė",
+      "text": "Ne, nesidariau. Ne."
+    },
+    {
+      "time": "02:05",
+      "speaker": "Gydytoja",
+      "text": "Gerai. Kalbant apie lėtines ligas, gal turit kažką iš nustatytų diagnozių?"
+    },
+    {
+      "time": "02:10",
+      "speaker": "Pacientė",
+      "text": "Turiu skydliaukę."
+    },
+    {
+      "time": "02:13",
+      "speaker": "Gydytoja",
+      "text": "O kas tiksliau? Hipotirozė, hipertirozė?"
+    },
+    {
+      "time": "02:16",
+      "speaker": "Pacientė",
+      "text": "Kažkada man buvo skyrę tiroksiną, bet dabar nereikia jo."
+    },
+    {
+      "time": "02:20",
+      "speaker": "Gydytoja",
+      "text": "Dabar nereikia. Supratau."
+    },
+    {
+      "time": "02:22",
+      "speaker": "Pacientė",
+      "text": "Ir turiu cholesterolį padidintą."
+    },
+    {
+      "time": "02:25",
+      "speaker": "Gydytoja",
+      "text": "Taip. Vaistų vartojate?"
+    },
+    {
+      "time": "02:27",
+      "speaker": "Pacientė",
+      "text": "Skyrė, bet nenoriu gerti, tai negeriu."
+    },
+    {
+      "time": "02:30",
+      "speaker": "Gydytoja",
+      "text": "Ir ir viskas."
+    },
+    {
+      "time": "02:32",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Tokių dalykų kaip migrenos..."
+    },
+    {
+      "time": "02:35",
+      "speaker": "Pacientė",
+      "text": "Ne."
+    },
+    {
+      "time": "02:36",
+      "speaker": "Gydytoja",
+      "text": "...pavyzdžiui, mažakraujystės stoka kraujyje nėra nustatytų?"
+    },
+    {
+      "time": "02:40",
+      "speaker": "Pacientė",
+      "text": "Ne, nieko."
+    },
+    {
+      "time": "02:41",
+      "speaker": "Gydytoja",
+      "text": "Operacijų gal per gyvenimą buvo?"
+    },
+    {
+      "time": "02:43",
+      "speaker": "Pacientė",
+      "text": "Cezario pjūvis tiktai."
+    },
+    {
+      "time": "02:45",
+      "speaker": "Gydytoja",
+      "text": "Tiktais, ar ne? Alergijų gal yra nustatytų?"
+    },
+    {
+      "time": "02:48",
+      "speaker": "Pacientė",
+      "text": "Alergijų yra. Beržui aš labai alergiška ir maisto produktams kai kuriems. Šokoladui, citrusams, braškėms, obuoliams. Kryžminės reakcijos su beržu, tai realiai pagrinde beržo alergija."
+    },
+    {
+      "time": "03:03",
+      "speaker": "Gydytoja",
+      "text": "Supratau. Vaistų alergijų niekada nebuvo nustatytų?"
+    },
+    {
+      "time": "03:06",
+      "speaker": "Pacientė",
+      "text": "Ne, vaistams ne."
+    },
+    {
+      "time": "03:08",
+      "speaker": "Gydytoja",
+      "text": "Tvarkoj. Kokia situacija su psichikos ligomis per gyvenimą?"
+    },
+    {
+      "time": "03:12",
+      "speaker": "Pacientė",
+      "text": "Nėra buvę."
+    },
+    {
+      "time": "03:13",
+      "speaker": "Gydytoja",
+      "text": "Nėra buvę. Supratau. Mama, tėtis kokiomis ligomis serga arba sirgę?"
+    },
+    {
+      "time": "03:18",
+      "speaker": "Pacientė",
+      "text": "Mama turi psoriazinį artritą, vartoja biologinę [terapiją]."
+    },
+    {
+      "time": "03:23",
+      "speaker": "Gydytoja",
+      "text": "Taip."
+    },
+    {
+      "time": "03:24",
+      "speaker": "Pacientė",
+      "text": "O tėtis – širdies ligos, infarktai yra buvę, cholesterolis didelis."
+    },
+    {
+      "time": "03:30",
+      "speaker": "Gydytoja",
+      "text": "Mhm."
+    },
+    {
+      "time": "03:31",
+      "speaker": "Pacientė",
+      "text": "Ir viskas."
+    },
+    {
+      "time": "03:32",
+      "speaker": "Gydytoja",
+      "text": "Broliai, sesės sveiki?"
+    },
+    {
+      "time": "03:34",
+      "speaker": "Pacientė",
+      "text": "Brolis turi psoriazę, aš irgi turiu tiesa psoriazę."
+    },
+    {
+      "time": "03:38",
+      "speaker": "Gydytoja",
+      "text": "Aha."
+    },
+    {
+      "time": "03:39",
+      "speaker": "Pacientė",
+      "text": "Bet nedidelę tokią, nesunkią formą."
+    },
+    {
+      "time": "03:41",
+      "speaker": "Gydytoja",
+      "text": "Sąnarių nebūna skausmų jum konkrečiai dėl psoriazės?"
+    },
+    {
+      "time": "03:44",
+      "speaker": "Pacientė",
+      "text": "Ne."
+    },
+    {
+      "time": "03:45",
+      "speaker": "Gydytoja",
+      "text": "Ne. Supratau. Gerai, tai tada viską pasižiūrėkim, gerai?"
+    },
+    {
+      "time": "03:49",
+      "speaker": "Pacientė",
+      "text": "Gerai."
+    },
+    {
+      "time": "03:50",
+      "speaker": "Gydytoja",
+      "text": "Tvarkoj, reikės nusirengti. Galit prisėsti ir tada pasimatuosim kraujospūdį, pasimatuosim pulsą, deguonies saturaciją, apžiūrėsim gerklę, paklausysim plaučius. Gerai, tai uždėsiu aparatą tada."
+    },
+    {
+      "time": "04:10",
+      "speaker": "Gydytoja",
+      "text": "Mhm, šiek tiek suspaus, galim dėti. Ir visiškai ramiai pasėdim, atpalaidavę ranką. Ir užsidedam pulsui pasimatuoti. Taip, temperatūrą pamatuosiu."
+    },
+    {
+      "time": "04:25",
+      "speaker": "Gydytoja",
+      "text": "Šiuo metu 36,6."
+    },
+    {
+      "time": "04:28",
+      "speaker": "Pacientė",
+      "text": "Mhm."
+    },
+    {
+      "time": "04:55",
+      "speaker": "Gydytoja",
+      "text": "Gerai, kraujospūdis 115 ant 83, pulsas 69."
+    },
+    {
+      "time": "05:01",
+      "speaker": "Pacientė",
+      "text": "Mhm."
+    },
+    {
+      "time": "05:02",
+      "speaker": "Gydytoja",
+      "text": "Deguonies saturacija dabar yra 97."
+    },
+    {
+      "time": "05:05",
+      "speaker": "Pacientė",
+      "text": "Puiku."
+    },
+    {
+      "time": "05:06",
+      "speaker": "Gydytoja",
+      "text": "Tai čia rodikliai geri."
+    },
+    {
+      "time": "05:08",
+      "speaker": "Pacientė",
+      "text": "Taip, rodikliai geri."
+    },
+    {
+      "time": "05:09",
+      "speaker": "Gydytoja",
+      "text": "Žiūrim gerklę, išsižiokit prašau."
+    },
+    {
+      "time": "05:12",
+      "speaker": "Pacientė",
+      "text": "Aaa."
+    },
+    {
+      "time": "05:13",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Kol kas tiesiog išsižiojus būnam. Ryklė, tonzilės, visas žiočių lankas ir užpakalinė ryklės sienelė visiškai normalūs šiuo metu. Liežuvėlis be apnašo. Aha, galim įkišt liežuvį. Ši burnos gleivinė irgi šiuo metu be jokių uždegiminių pakitimų."
+    },
+    {
+      "time": "05:39",
+      "speaker": "Gydytoja",
+      "text": "Kalbant apie refliuksą, nebūna kartais?"
+    },
+    {
+      "time": "05:42",
+      "speaker": "Pacientė",
+      "text": "Būna. Būna, jaučiu, kad degina kartais gerklę."
+    },
+    {
+      "time": "05:46",
+      "speaker": "Gydytoja",
+      "text": "Aha."
+    },
+    {
+      "time": "05:47",
+      "speaker": "Pacientė",
+      "text": "Rytais vat jaučiu. Kartais."
+    },
+    {
+      "time": "05:50",
+      "speaker": "Gydytoja",
+      "text": "Mhm."
+    },
+    {
+      "time": "05:51",
+      "speaker": "Pacientė",
+      "text": "Bet žinot, nuo maisto priklauso, jeigu pavalgau vakare vėlai, tai vat tada."
+    },
+    {
+      "time": "05:55",
+      "speaker": "Gydytoja",
+      "text": "Nekiekvieną dieną."
+    },
+    {
+      "time": "05:56",
+      "speaker": "Pacientė",
+      "text": "Ne kiekvieną dieną."
+    },
+    {
+      "time": "05:57",
+      "speaker": "Gydytoja",
+      "text": "Vaistų netenka vartoti nuo...?"
+    },
+    {
+      "time": "05:59",
+      "speaker": "Pacientė",
+      "text": "Labai retai kokių nereceptinių, vyras duoda „Rennie“, bet ne kitų kažkokių receptinių, tai nesu gėrus."
+    },
+    {
+      "time": "06:07",
+      "speaker": "Gydytoja",
+      "text": "Tvarkoj, gerai. Toliau pasižiūrim, gerai, ausys. Tai otoskopuojant šiuo metu būgneliai pilki, su šviesos refleksu. Landos švarios, be jokių uždegiminių pakitimų."
+    },
+    {
+      "time": "06:26",
+      "speaker": "Gydytoja",
+      "text": "Apžiūrėsim nosį, padarysime priekinę rinoskopiją. Tai šiuo metu gleivinė abiejose landose visiškai be uždegiminių pakitimų."
+    },
+    {
+      "time": "06:40",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Tai čia gerai, ane?"
+    },
+    {
+      "time": "06:41",
+      "speaker": "Pacientė",
+      "text": "Čia gerai, čia viskas gerai."
+    },
+    {
+      "time": "06:43",
+      "speaker": "Gydytoja",
+      "text": "Gerai, apžiūrėsiu kaklą, šiek tiek pačiupinėsiu periferinius kaklo limfmazgius. Tai šiuo metu, jeigu skausmą jaustumėt, sakykit."
+    },
+    {
+      "time": "06:55",
+      "speaker": "Pacientė",
+      "text": "Gerai."
+    },
+    {
+      "time": "06:57",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Patys limfmazgiai tai visiškai nečiuopiami, nepadidėję, paslankūs."
+    },
+    {
+      "time": "07:03",
+      "speaker": "Pacientė",
+      "text": "Mhm."
+    },
+    {
+      "time": "07:04",
+      "speaker": "Gydytoja",
+      "text": "Skydliaukė irgi nesičiuopia, minkšta. Skausmo, diskomforto nejuntat?"
+    },
+    {
+      "time": "07:09",
+      "speaker": "Pacientė",
+      "text": "Ne."
+    },
+    {
+      "time": "07:10",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Gerai, paklausysiu širdį."
+    },
+    {
+      "time": "07:17",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Tai šiuo metu širdies veikla ritmiška ir be jokių ūžesių. Paklausysiu plaučius. Kvėpuojam giliai per burną."
+    },
+    {
+      "time": "07:29",
+      "speaker": "Gydytoja",
+      "text": "Mhm, nebekvėpuojam ir staigiai iškvepiam."
+    },
+    {
+      "time": "07:33",
+      "speaker": "Gydytoja",
+      "text": "Dar kartelį."
+    },
+    {
+      "time": "07:36",
+      "speaker": "Gydytoja",
+      "text": "Mhm, gerai, ačiū."
+    },
+    {
+      "time": "07:38",
+      "speaker": "Gydytoja",
+      "text": "Gerai, prisėskit. Tai plaučiuose garsai be jokių karkalų. Alsavimas vezikulinis. Jokių kažkokių kitų patologinių garsų nėra."
+    },
+    {
+      "time": "07:50",
+      "speaker": "Gydytoja",
+      "text": "Pilvo skausmų būna ar nebūna?"
+    },
+    {
+      "time": "07:53",
+      "speaker": "Pacientė",
+      "text": "Ne, niekada."
+    },
+    {
+      "time": "07:54",
+      "speaker": "Gydytoja",
+      "text": "Kas liečia, sakykim, refliuksą. Diskomforto epigastriume nejaučiat?"
+    },
+    {
+      "time": "07:59",
+      "speaker": "Pacientė",
+      "text": "Kas tas epigastriumas?"
+    },
+    {
+      "time": "08:01",
+      "speaker": "Gydytoja",
+      "text": "Šita zona, prie krūtinkaulio."
+    },
+    {
+      "time": "08:03",
+      "speaker": "Pacientė",
+      "text": "Ne, nebūna."
+    },
+    {
+      "time": "08:04",
+      "speaker": "Gydytoja",
+      "text": "Nebūna. Prigulkit šiek tiek, gerai, pasižiūrėsim dar pilvą."
+    },
+    {
+      "time": "08:08",
+      "speaker": "Pacientė",
+      "text": "Čia gultis?"
+    },
+    {
+      "time": "08:09",
+      "speaker": "Gydytoja",
+      "text": "Taip."
+    },
+    {
+      "time": "08:10",
+      "speaker": "Pacientė",
+      "text": "Gerai."
+    },
+    {
+      "time": "08:12",
+      "speaker": "Gydytoja",
+      "text": "Mhm. Gerai, tai šiek tiek prisiliesiu prie pilvo. Šiaip pilvas minkštas."
+    },
+    {
+      "time": "08:18",
+      "speaker": "Pacientė",
+      "text": "Čia skauda, bet po treniruotės."
+    },
+    {
+      "time": "08:20",
+      "speaker": "Gydytoja",
+      "text": "Aha. Tai skausmingas vat čia ir yra ta epigastriumo sritis, tai skausmingas epigastriume, manosi."
+    },
+    {
+      "time": "08:27",
+      "speaker": "Pacientė",
+      "text": "Mhm."
+    },
+    {
+      "time": "08:28",
+      "speaker": "Gydytoja",
+      "text": "O šita zona?"
+    },
+    {
+      "time": "08:29",
+      "speaker": "Pacientė",
+      "text": "Neskauda, kutenant."
+    },
+    {
+      "time": "08:31",
+      "speaker": "Gydytoja",
+      "text": "Neskauda. Gerai."
+    },
+    {
+      "time": "08:33",
+      "speaker": "Gydytoja",
+      "text": "Pilvas tada minkštas, šiaip skausmingas tiktai epigastriume."
+    },
+    {
+      "time": "08:37",
+      "speaker": "Gydytoja",
+      "text": "Gerai, galit prisėsti."
+    },
+    {
+      "time": "08:39",
+      "speaker": "Gydytoja",
+      "text": "Bendrai kojų tinimo vakarais nebūna nieko, ar ne?"
+    },
+    {
+      "time": "08:44",
+      "speaker": "Pacientė",
+      "text": "Ne, nebūna."
+    },
+    {
+      "time": "08:45",
+      "speaker": "Gydytoja",
+      "text": "Odos bėrimų nepastebėjot sau jokių?"
+    },
+    {
+      "time": "08:48",
+      "speaker": "Pacientė",
+      "text": "Ne, tiktai galvoju dėl tos žvynelinės būna, bet ten labai nedaug."
+    },
+    {
+      "time": "08:53",
+      "speaker": "Gydytoja",
+      "text": "Supratau. Gerai, tai tada įtarimas kyla dėl refliukso sukelto gerklės skausmo šiuo metu."
+    },
+    {
+      "time": "09:02",
+      "speaker": "Pacientė",
+      "text": "Čia manot nuo skrandžio, ar ne?"
+    },
+    {
+      "time": "09:04",
+      "speaker": "Gydytoja",
+      "text": "Įtarčiau tokį dalyką. Kol kas jokių tokių uždegiminių pakitimų gerklėj nesimato, infekcinės kilmės nesimato, bet galėtume pasitikrinti virusinius žymenis kraujo."
+    },
+    {
+      "time": "09:18",
+      "speaker": "Pacientė",
+      "text": "Taip, taip norėčiau labai."
+    },
+    {
+      "time": "09:20",
+      "speaker": "Gydytoja",
+      "text": "Tai siūlau šitą padaryti tada, bendrą kraują ir CRB."
+    },
+    {
+      "time": "09:24",
+      "speaker": "Pacientė",
+      "text": "O čia dabar?"
+    },
+    {
+      "time": "09:25",
+      "speaker": "Gydytoja",
+      "text": "Taip, dabar."
+    },
+    {
+      "time": "09:26",
+      "speaker": "Pacientė",
+      "text": "Gerai."
+    },
+    {
+      "time": "09:27",
+      "speaker": "Gydytoja",
+      "text": "Ir tada dar pasidarysime Strep testą, dėl streptokoko. Paimsim pasėlį iš gerklės, tiesiog greitas atsakymas per 20 minučių dėl streptokokinės infekcijos."
+    },
+    {
+      "time": "09:39",
+      "speaker": "Pacientė",
+      "text": "Gerai."
+    },
+    {
+      "time": "09:40",
+      "speaker": "Gydytoja",
+      "text": "Jeigu jie visi būtų neigiami, tai tada aptarsim gydymą ir susitiksim turbūt po savaitės, planuosim."
+    },
+    {
+      "time": "09:48",
+      "speaker": "Pacientė",
+      "text": "Gerai, ačiū. O ką man dabar užsirašyt pas jus ar registratūroj?"
+    },
+    {
+      "time": "09:53",
+      "speaker": "Gydytoja",
+      "text": "Aš eisiu kartu su jum, mes tada užregistruosim ir į kraujo tyrimus, ir iškart sulauksime tyrimų ir grįšime tada pas mane už 20 minučių."
+    },
+    {
+      "time": "10:03",
+      "speaker": "Pacientė",
+      "text": "Puiku, ačiū."
+    },
+    {
+      "time": "10:04",
+      "speaker": "Gydytoja",
+      "text": "Tai ačiū tada."
+    }
+  ],
+  "meta": {
+    "fileName": "Konsultacija su šeimos gydytoju.m4a",
+    "date": "2021-07-14",
+    "participants": [
+      "Gydytoja",
+      "Pacientė"
+    ]
+  }
+}

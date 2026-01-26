@@ -1,0 +1,20 @@
+{
+  "transcript": [
+    {"time": "00:00:05", "speaker": "Gydytojas", "text": "Laba diena, kas jus atvejo?"},
+    {"time": "00:00:10", "speaker": "Pacientas", "text": "Laba diena, skundžiuosi stipriu gerklės skausmu, kaip pjauna peiliu, ypač kai ryju."},
+    {"time": "00:00:20", "speaker": "Gydytojas", "text": "Kada prasidėjo?"},
+    {"time": "00:00:25", "speaker": "Pacientas", "text": "Prieš kelias dienas, nuo kovo trečios."},
+    {"time": "00:00:35", "speaker": "Gydytojas", "text": "Ar yra kitų simptomų - temperatūros, šaltkrėčio?"},
+    {"time": "00:00:45", "speaker": "Pacientas", "text": "Taip, jaučiu šaltkrėtį, silpnumą, galvos skausmą. Kai pajudu, labai prakaituoju."},
+    {"time": "00:01:00", "speaker": "Gydytojas", "text": "O sloga, kosulys, dusulys?"},
+    {"time": "00:01:05", "speaker": "Pacientas", "text": "Ne, to nėra."},
+    {"time": "00:01:15", "speaker": "Gydytojas", "text": "Ar turite lėtinių ligų?"},
+    {"time": "00:01:25", "speaker": "Pacientas", "text": "Anksčiau vartojau tiroksiną dėl skydliaukės, bet dabar jau ne. Turiu padidintą cholesterolį, bet vaistų nevartoju. Ir dar psoriazė, bet lengva forma."},
+    {"time": "00:01:45", "speaker": "Gydytojas", "text": "Ar buvote operuota?"},
+    {"time": "00:01:50", "speaker": "Pacientas", "text": "Taip, turėjau cezario pjūvį."},
+    {"time": "00:02:00", "speaker": "Gydytojas", "text": "O šeimoje ar yra ligų?"},
+    {"time": "00:02:10", "speaker": "Pacientas", "text": "Mama serga psoriaziniu artritu, tėtis turi širdies ligų, o brolis irgi turi psoriazę."},
+    {"time": "00:02:25", "speaker": "Gydytojas", "text": "Ar turite virškinimo problemų?"},
+    {"time": "00:02:30", "speaker": "Pacientas", "text": "Kartais jaučiu refliukso simptomus, deginimą, ypač po vėlyvo maisto."}
+  ]
+}
