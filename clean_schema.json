@@ -1,0 +1,1017 @@
+{
+  "$defs": {
+    "Allergy": {
+      "description": "Alergijos įrašas - vaistams, maistui ar kitoms medžiagoms",
+      "properties": {
+        "type": {
+          "description": "Alergijos tipas",
+          "enum": [
+            "vaistai",
+            "maistas",
+            "kita"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "description": {
+          "description": "Alergeno aprašymas",
+          "title": "Description",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Nustatymo data",
+          "title": "Date"
+        },
+        "source_segments": {
+          "description": "Transkripcijos segmentų indeksai",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Source Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "description"
+      ],
+      "title": "Allergy",
+      "type": "object"
+    },
+    "Ambulance": {
+      "description": "GMP (greitosios) informacija",
+      "properties": {
+        "arrived_by_ambulance": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ar atvežtas GMP",
+          "title": "Arrived By Ambulance"
+        },
+        "ambulance_institution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "GMP įstaigos pavadinimas",
+          "title": "Ambulance Institution"
+        },
+        "ambulance_diagnosis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "GMP nustatyta diagnozė",
+          "title": "Ambulance Diagnosis"
+        }
+      },
+      "title": "Ambulance",
+      "type": "object"
+    },
+    "BodyMeasurements": {
+      "description": "Kūno matavimai - svoris, ūgis, apimtys",
+      "properties": {
+        "weight": {
+          "anyOf": [
+            {
+              "maximum": 300,
+              "minimum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Kūno svoris kg",
+          "title": "Weight"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "maximum": 250,
+              "minimum": 50,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ūgis cm",
+          "title": "Height"
+        },
+        "bmi": {
+          "anyOf": [
+            {
+              "maximum": 60,
+              "minimum": 10,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Kūno masės indeksas kg/m². Norma: 18.5-24.9",
+          "title": "Bmi"
+        },
+        "chest_circumference": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Krūtinės apimtis cm",
+          "title": "Chest Circumference"
+        },
+        "hip_circumference": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Klubų apimtis cm",
+          "title": "Hip Circumference"
+        },
+        "waist_circumference": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Juosmens apimtis cm",
+          "title": "Waist Circumference"
+        },
+        "head_circumference": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Galvos apimtis cm",
+          "title": "Head Circumference"
+        }
+      },
+      "title": "BodyMeasurements",
+      "type": "object"
+    },
+    "Certificates": {
+      "description": "Pažymos ir nedarbingumo dokumentai",
+      "properties": {
+        "disability_certificate": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ar išduotas nedarbingumo pažymėjimas",
+          "title": "Disability Certificate"
+        },
+        "maternity_certificate": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ar išduotas nėštumo/gimdymo pažymėjimas",
+          "title": "Maternity Certificate"
+        },
+        "medical_certificate": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ar išduota medicininė pažyma (094/a)",
+          "title": "Medical Certificate"
+        },
+        "disability_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Pažymėjimo numeris",
+          "title": "Disability Number"
+        },
+        "disability_start_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Nedarbingumo pradžios data",
+          "title": "Disability Start Date"
+        },
+        "disability_end_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Nedarbingumo pabaigos data",
+          "title": "Disability End Date"
+        },
+        "disability_description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Nedarbingumo priežasties aprašymas",
+          "title": "Disability Description"
+        }
+      },
+      "title": "Certificates",
+      "type": "object"
+    },
+    "ClinicalNotes": {
+      "description": "Klinikiniai užrašai ir tyrimai",
+      "properties": {
+        "complaints_anamnesis": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Nusiskundimai ir anamnezė - atskiri teiginiai su nuorodomis",
+          "title": "Complaints Anamnesis"
+        },
+        "objective_condition": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Objektyvus būklės įvertinimas - atskiri teiginiai su nuorodomis",
+          "title": "Objective Condition"
+        },
+        "tests_consultations_plan": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Planuojami tyrimai ir konsultacijos - atskiri teiginiai su nuorodomis",
+          "title": "Tests Consultations Plan"
+        },
+        "performed_tests_consultations": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Atliktų tyrimų rezultatai - atskiri teiginiai su nuorodomis",
+          "title": "Performed Tests Consultations"
+        },
+        "condition_on_discharge": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Būklė konsultacijos pabaigoje - atskiri teiginiai su nuorodomis",
+          "title": "Condition On Discharge"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ClinicalStatement"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Papildoma informacija - atskiri teiginiai su nuorodomis",
+          "title": "Notes"
+        }
+      },
+      "title": "ClinicalNotes",
+      "type": "object"
+    },
+    "ClinicalStatement": {
+      "description": "Individual clinical statement with transcript reference.",
+      "properties": {
+        "statement": {
+          "description": "Vienas klinikinis teiginys",
+          "title": "Statement",
+          "type": "string"
+        },
+        "source_segments": {
+          "description": "Transkripcijos segmentų indeksai, iš kurių išgautas teiginys",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Source Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "statement",
+        "source_segments"
+      ],
+      "title": "ClinicalStatement",
+      "type": "object"
+    },
+    "Diagnosis": {
+      "description": "Diagnozės informacija - masyvas diagnozių su nuorodomis",
+      "properties": {
+        "items": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/DiagnosisItem"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Diagnozių sąrašas su nuorodomis į transkripciją",
+          "title": "Items"
+        }
+      },
+      "title": "Diagnosis",
+      "type": "object"
+    },
+    "DiagnosisItem": {
+      "description": "Individual diagnosis with transcript reference.",
+      "properties": {
+        "diagnosis": {
+          "description": "Diagnozė lietuvių kalba",
+          "title": "Diagnosis",
+          "type": "string"
+        },
+        "diagnosis_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "TLK-10-AM kodas, pvz.: J45.0",
+          "title": "Diagnosis Code"
+        },
+        "diagnosis_certainty": {
+          "anyOf": [
+            {
+              "enum": [
+                "+",
+                "-",
+                "0"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tikrumas: '+' patvirtinta, '-' atmesta, '0' įtariama",
+          "title": "Diagnosis Certainty"
+        },
+        "source_segments": {
+          "description": "Transkripcijos segmentų indeksai",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Source Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "diagnosis"
+      ],
+      "title": "DiagnosisItem",
+      "type": "object"
+    },
+    "Referral": {
+      "description": "Siuntimo informacija",
+      "properties": {
+        "arrived_with_referral": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ar atvyko su siuntimu",
+          "title": "Arrived With Referral"
+        },
+        "referring_institution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Siuntusios įstaigos pavadinimas",
+          "title": "Referring Institution"
+        },
+        "referring_physician": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Siuntusio gydytojo vardas, pavardė",
+          "title": "Referring Physician"
+        },
+        "referral_diagnosis": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Siuntimo diagnozė su TLK-10-AM kodu",
+          "title": "Referral Diagnosis"
+        }
+      },
+      "title": "Referral",
+      "type": "object"
+    },
+    "Restrictions": {
+      "description": "Apribojimai - vairavimas, ginklai",
+      "properties": {
+        "cannot_drive": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Draudimas vairuoti",
+          "title": "Cannot Drive"
+        },
+        "cannot_drive_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Draudimo vairuoti data",
+          "title": "Cannot Drive Date"
+        },
+        "cannot_use_weapon": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Draudimas naudoti ginklą",
+          "title": "Cannot Use Weapon"
+        }
+      },
+      "title": "Restrictions",
+      "type": "object"
+    },
+    "Treatment": {
+      "description": "Gydymo informacija - masyvas su nuorodomis",
+      "properties": {
+        "items": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/TreatmentItem"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Gydymo veiksmų sąrašas su nuorodomis į transkripciją",
+          "title": "Items"
+        }
+      },
+      "title": "Treatment",
+      "type": "object"
+    },
+    "TreatmentItem": {
+      "description": "Individual treatment item with transcript reference.",
+      "properties": {
+        "description": {
+          "description": "Gydymo aprašymas",
+          "title": "Description",
+          "type": "string"
+        },
+        "type": {
+          "description": "Gydymo tipas: 'medication', 'non_medication', 'prescription', 'referral', 'recommendation'",
+          "title": "Type",
+          "type": "string"
+        },
+        "source_segments": {
+          "description": "Transkripcijos segmentų indeksai",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Source Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "type"
+      ],
+      "title": "TreatmentItem",
+      "type": "object"
+    },
+    "Vaccination": {
+      "description": "Skiepų informacija",
+      "properties": {
+        "name": {
+          "description": "Skiepo pavadinimas | vakcinos pavadinimas",
+          "title": "Name",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Skiepijimo data",
+          "title": "Date"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Vaccination",
+      "type": "object"
+    },
+    "VisitMetadata": {
+      "description": "Vizito metaduomenys",
+      "properties": {
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Apsilankymo data",
+          "title": "Date"
+        },
+        "time": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{2}:\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Apsilankymo laikas VV:MM",
+          "title": "Time"
+        },
+        "record_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Įrašo numeris",
+          "title": "Record Number"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "darbinis",
+                "galutinis"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Įrašo būsena",
+          "title": "Status"
+        },
+        "physician": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Gydytojo vardas, pavardė ir pareigos",
+          "title": "Physician"
+        },
+        "help_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "butinoji",
+                "planine",
+                "kita"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Pagalbos tipas",
+          "title": "Help Type"
+        },
+        "consultation_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "tiesioginis",
+                "nuotolinis",
+                "kitas"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Konsultacijos pobūdis",
+          "title": "Consultation Type"
+        },
+        "service_method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Aptarnavimo ypatumai",
+          "title": "Service Method"
+        }
+      },
+      "title": "VisitMetadata",
+      "type": "object"
+    },
+    "VitalSignItem": {
+      "description": "Individual vital sign measurement with transcript reference.",
+      "properties": {
+        "name": {
+          "description": "Rodiklio pavadinimas",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "description": "Rodiklio reikšmė su vienetais",
+          "title": "Value",
+          "type": "string"
+        },
+        "source_segments": {
+          "description": "Transkripcijos segmentų indeksai",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Source Segments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "title": "VitalSignItem",
+      "type": "object"
+    },
+    "VitalSigns": {
+      "description": "Gyvybiniai rodikliai - masyvas matavimų su nuorodomis",
+      "properties": {
+        "items": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/VitalSignItem"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Gyvybinių rodiklių sąrašas su nuorodomis į transkripciją",
+          "title": "Items"
+        }
+      },
+      "title": "VitalSigns",
+      "type": "object"
+    }
+  },
+  "description": "E025 Ambulatorinio apsilankymo aprašymas - pilnas dokumentas\n\nThis document represents a complete outpatient visit description\naccording to Lithuanian medical documentation standards.",
+  "properties": {
+    "visit": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VisitMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "referral": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Referral"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "ambulance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Ambulance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "diagnosis": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Diagnosis"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "vital_signs": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VitalSigns"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "body_measurements": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BodyMeasurements"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "clinical_notes": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClinicalNotes"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "treatment": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Treatment"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "certificates": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Certificates"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "restrictions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Restrictions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "allergies": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Allergy"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Allergies"
+    },
+    "vaccinations": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Vaccination"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Vaccinations"
+    }
+  },
+  "title": "E025Document",
+  "type": "object"
+}

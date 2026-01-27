@@ -23,13 +23,14 @@ coverage.xml
 *.log
 .pytest_cache/
 
-# Node.js / Frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
+# Node.js / Frontend - Ignored for Streamlit deployment
+frontend/
+node_modules/
+.npm
+package-lock.json
+
+# Streamlit
+.streamlit/
 
 # Mac
 .DS_Store
