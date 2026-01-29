@@ -70,20 +70,39 @@ complaints_anamnesis includes:
   - Past surgeries (prefix: "Operacija:")
   - Family history (prefix: "Šeimos anamnezė:")
   - Negative findings explicitly stated
+  STYLE: Write statements naturally from the patient's perspective.
+  Good: "Pacientas skundžiasi gerklės skausmu, ypač ryjant"
+  Good: "Jaučia silpnumą ir galvos skausmą nuo vakar vakaro"
+  Good: "Temperatūra pakilo iki 38.5°C prieš dvi dienas"
+  Bad: "Gerklės skausmas" (too terse, lacks context)
+  Bad: "Pacientas nurodo, kad jam skauda gerklę" (too formal/redundant)
 
 objective_condition includes:
   - Physical examination findings by system
-  - Format: "[System]: [finding]"
+  STYLE: Write as doctors document in medical records - direct clinical observations.
+  Good: "Gerklė parauda, tonzilės padidėjusios"
+  Good: "Plaučiuose alsavimas vezikulinis, be karkalų"
+  Good: "Pilvas minkštas, neskausmingas"
+  Good: "Saturacija 97%"
+  Bad: "Apžiūros metu nustatyta, kad gerklė parauda" (too verbose)
+  Bad: "Gerklė: parauda" (don't use label format)
 
 tests_consultations_plan includes:
   - Planned laboratory tests (blood, urine, CRB, etc.)
   - Planned imaging (X-ray, MRI, ultrasound)
   - Future specialist consultations
   - NOTE: Do NOT put planned tests in "treatment"
+  STYLE: Write as action items without "Planuojama" prefix.
+  Good: "Atlikti bendrą kraujo tyrimą"
+  Good: "Siųsti pas LOR gydytoją"
+  Bad: "Planuojama atlikti kraujo tyrimą" (unnecessary prefix)
 
 performed_tests_consultations includes:
   - Results of tests already performed during visit
   - Previous test results mentioned
+  STYLE: State results directly.
+  Good: "CRB testas neigiamas"
+  Good: "Kraujo tyrimas parodė padidėjusį leukocitų kiekį"
 </field_definitions>
 
 <extraction_rules>
@@ -109,6 +128,19 @@ performed_tests_consultations includes:
      [10] Doctor: "Do you have a fever?"
      [11] Patient: "No."
      Fact: "Nėra karščiavimo" -> source_segments: [10, 11]
+
+5. NATURAL WRITING STYLE
+   Write statements as complete, self-contained sentences that make sense when read alone.
+   For vital_signs: Include the measurement name and value together in the "value" field.
+   Example: name="Saturacija", value="97%" (the display will show "Saturacija: 97%")
+
+   For complaints_anamnesis: Write from patient perspective, naturally.
+   Bad: "Galvos skausmas"
+   Good: "Pacientas skundžiasi galvos skausmu nuo ryto"
+
+   For objective_condition: Write direct clinical observations without preamble.
+   Bad: "Apžiūros metu nustatyta hiperemija"
+   Good: "Tonzilės hiperemijuotos, padidėjusios"
 </extraction_rules>
 """
 

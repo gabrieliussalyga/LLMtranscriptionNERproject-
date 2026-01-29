@@ -58,6 +58,63 @@ st.markdown("""
         min-height: 0px;
         height: 24px;
     }
+
+    /* Clickable statement card styling - target buttons inside expanders */
+    div[data-testid="stExpander"] div[data-testid="stButton"] > button {
+        background-color: #f8f9fa !important;
+        border: 1px solid #e0e0e0 !important;
+        border-left: 3px solid #4CAF50 !important;
+        border-radius: 3px !important;
+        padding: 3px 8px !important;
+        margin-bottom: 2px !important;
+        font-size: 0.8rem !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+        width: auto !important;
+        color: #333 !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+        height: auto !important;
+        min-height: 0 !important;
+        white-space: normal !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stButton"] > button:hover {
+        background-color: #e8f5e9 !important;
+        border-left-color: #2E7D32 !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stButton"] > button:active {
+        background-color: #c8e6c9 !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stButton"] {
+        margin: 8px 6px !important;
+        padding: 0 !important;
+        display: inline-block !important;
+        vertical-align: top !important;
+    }
+
+    /* Tighter expander styling */
+    div[data-testid="stExpander"] details {
+        margin-bottom: 2px !important;
+    }
+    div[data-testid="stExpander"] summary {
+        padding: 4px 8px !important;
+        font-size: 0.85rem !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] {
+        padding: 4px 8px !important;
+    }
+    /* Force all nested divs in expander to be inline for chip-like layout */
+    div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] > div,
+    div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] > div > div,
+    div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] > div > div > div,
+    div[data-testid="stExpander"] div[data-testid="stExpanderDetails"] > div > div > div > div {
+        display: inline !important;
+        width: auto !important;
+    }
+    div[data-testid="stExpander"] div[data-testid="stVerticalBlock"] {
+        display: inline !important;
+        gap: 0 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -112,6 +169,8 @@ if "highlighted_segments" not in st.session_state:
     st.session_state.highlighted_segments = set()
 if "scroll_id" not in st.session_state:
     st.session_state.scroll_id = "scroll-target-init"
+if "expanders_state" not in st.session_state:
+    st.session_state.expanders_state = True  # True = expanded, False = collapsed
 
 # Header
 st.title("🏥 Medicininių Entitetų Išgavimas")
@@ -235,123 +294,118 @@ with right_col:
     
     if result:
         doc = result.document
-        
-        # CATEGORY SELECTOR
-        categories = {
-            "vizitas": "Vizitas ir Rodikliai",
-            "nusiskundimai": "Nusiskundimai (Anamnezė)",
-            "objektyvi": "Objektyvi Būklė",
-            "diagnozes": "Diagnozės",
-            "gydymas": "Gydymas",
-            "planas": "Tyrimų Planas",
-            "kita": "Alergijos ir Kita"
-        }
-        
-        selected_cat = st.selectbox(
-            "Pasirinkite kategoriją:",
-            options=list(categories.keys()),
-            format_func=lambda x: categories[x],
-            label_visibility="collapsed"
-        )
-        
-        st.divider()
-        
-        # Helper to render row with highlight button
-        def render_row(label, value, segments):
-            c1, c2 = st.columns([0.85, 0.15])
-            with c1:
-                st.markdown(f"**{label}**")
-                st.write(value)
-            with c2:
+
+        # Helper to render a clickable statement card
+        def render_statement_card(statement, segments, card_index):
+            if st.button(statement, key=f"stmt_{card_index}_{st.session_state.scroll_id[-4:]}"):
                 if segments:
-                    # Key includes scroll_id to ensure button uniqueness isn't stale, 
-                    # but actually we just need a stable key. 
-                    # The ACTION updates the scroll_id.
-                    if st.button("👁️", key=f"btn_{label[:15]}_{segments}_{st.session_state.scroll_id[-4:]}", help="Rodyti transkripcijoje"):
-                        highlight_segments(segments)
-                        st.rerun()
-            st.write("") # Spacer
+                    highlight_segments(segments)
+                    st.rerun()
 
-        if selected_cat == "vizitas":
-            col1, col2 = st.columns(2)
-            with col1:
-                if doc.visit:
-                    st.markdown("**Vizito Informacija**")
-                    st.write(f"📅 {doc.visit.date or '-'}")
-                    st.write(f"🕒 {doc.visit.time or '-'}")
-                    st.write(f"👨‍⚕️ {doc.visit.physician or '-'}")
-            
-            with col2:
-                if doc.body_measurements:
-                    st.markdown("**Kūno Matavimai**")
-                    bm = doc.body_measurements
-                    if bm.weight: st.write(f"⚖️ {bm.weight} kg")
-                    if bm.height: st.write(f"📏 {bm.height} cm")
-                    if bm.bmi: st.write(f"📊 KMI: {bm.bmi}")
+        # Expand/Collapse All buttons
+        btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 2])
+        with btn_col1:
+            if st.button("➕ Išskleisti", use_container_width=True):
+                st.session_state.expanders_state = True
+                st.rerun()
+        with btn_col2:
+            if st.button("➖ Sutraukti", use_container_width=True):
+                st.session_state.expanders_state = False
+                st.rerun()
 
-            if doc.vital_signs and doc.vital_signs.items:
-                st.markdown("**Gyvybiniai Rodikliai**")
-                for item in doc.vital_signs.items:
-                    render_row(item.name, item.value, item.source_segments)
+        exp_state = st.session_state.expanders_state
 
-        elif selected_cat == "nusiskundimai":
-            if doc.clinical_notes and doc.clinical_notes.complaints_anamnesis:
-                for i, item in enumerate(doc.clinical_notes.complaints_anamnesis):
-                    render_row(f"Teiginys #{i+1}", item.statement, item.source_segments)
-            else:
-                st.info("Nėra duomenų.")
+        # Create scrollable container for all categories
+        results_container = st.container(height=620)
+        with results_container:
 
-        elif selected_cat == "objektyvi":
-            if doc.clinical_notes and doc.clinical_notes.objective_condition:
-                for i, item in enumerate(doc.clinical_notes.objective_condition):
-                    render_row(f"Teiginys #{i+1}", item.statement, item.source_segments)
-            else:
-                st.info("Nėra duomenų.")
+            # --- VIZITAS IR RODIKLIAI ---
+            with st.expander("📋 Vizitas ir Rodikliai", expanded=exp_state):
+                col1, col2 = st.columns(2)
+                with col1:
+                    if doc.visit:
+                        st.markdown("**Vizito Informacija**")
+                        st.write(f"📅 {doc.visit.date or '-'}")
+                        st.write(f"🕒 {doc.visit.time or '-'}")
+                        st.write(f"👨‍⚕️ {doc.visit.physician or '-'}")
 
-        elif selected_cat == "diagnozes":
-            if doc.diagnosis and doc.diagnosis.items:
-                for item in doc.diagnosis.items:
-                    certainty = {"+": "Patvirtinta", "-": "Atmesta", "0": "Įtariama"}.get(item.diagnosis_certainty, item.diagnosis_certainty)
-                    render_row(
-                        f"{item.diagnosis_code or '---'}", 
-                        f"{item.diagnosis} ({certainty})", 
-                        item.source_segments
-                    )
-            else:
-                st.info("Nėra duomenų.")
+                with col2:
+                    if doc.body_measurements:
+                        st.markdown("**Kūno Matavimai**")
+                        bm = doc.body_measurements
+                        if bm.weight: st.write(f"⚖️ {bm.weight} kg")
+                        if bm.height: st.write(f"📏 {bm.height} cm")
+                        if bm.bmi: st.write(f"📊 KMI: {bm.bmi}")
 
-        elif selected_cat == "gydymas":
-            if doc.treatment and doc.treatment.items:
-                for item in doc.treatment.items:
-                    render_row(item.type or "Gydymas", item.description, item.source_segments)
-            else:
-                st.info("Nėra duomenų.")
-                
-        elif selected_cat == "planas":
-             if doc.clinical_notes and doc.clinical_notes.tests_consultations_plan:
-                for i, item in enumerate(doc.clinical_notes.tests_consultations_plan):
-                    render_row(f"Planas #{i+1}", item.statement, item.source_segments)
-             else:
-                st.info("Nėra duomenų.")
+                if doc.vital_signs and doc.vital_signs.items:
+                    st.markdown("**Gyvybiniai Rodikliai**")
+                    for i, item in enumerate(doc.vital_signs.items):
+                        render_statement_card(f"{item.name} {item.value}", item.source_segments, f"vital_{i}")
 
-        elif selected_cat == "kita":
-            if doc.allergies:
-                st.markdown("#### Alergijos")
-                for allergy in doc.allergies:
-                    render_row(allergy.type, allergy.description, allergy.source_segments)
-            
-            if doc.referral:
-                st.markdown("#### Siuntimas")
-                r = doc.referral
-                st.write(f"**Gydytojas:** {r.referring_physician}")
-                st.write(f"**Įstaiga:** {r.referring_institution}")
-                st.write(f"**Diagnozė:** {r.referral_diagnosis}")
-            
-            if doc.certificates:
-                st.markdown("#### Pažymos")
-                c = doc.certificates
-                if c.disability_certificate:
-                    st.warning(f"Nedarbingumas: {c.disability_start_date} - {c.disability_end_date}")
+            # --- NUSISKUNDIMAI (ANAMNEZĖ) ---
+            with st.expander("🗣️ Nusiskundimai (Anamnezė)", expanded=exp_state):
+                if doc.clinical_notes and doc.clinical_notes.complaints_anamnesis:
+                    for i, item in enumerate(doc.clinical_notes.complaints_anamnesis):
+                        render_statement_card(item.statement, item.source_segments, f"anamneze_{i}")
+                else:
+                    st.info("Nėra duomenų.")
+
+            # --- OBJEKTYVI BŪKLĖ ---
+            with st.expander("🔬 Objektyvi Būklė", expanded=exp_state):
+                if doc.clinical_notes and doc.clinical_notes.objective_condition:
+                    for i, item in enumerate(doc.clinical_notes.objective_condition):
+                        render_statement_card(item.statement, item.source_segments, f"objektyvi_{i}")
+                else:
+                    st.info("Nėra duomenų.")
+
+            # --- DIAGNOZĖS ---
+            with st.expander("🏥 Diagnozės", expanded=exp_state):
+                if doc.diagnosis and doc.diagnosis.items:
+                    for i, item in enumerate(doc.diagnosis.items):
+                        certainty = {"+": "Patvirtinta", "-": "Atmesta", "0": "Įtariama"}.get(item.diagnosis_certainty, item.diagnosis_certainty)
+                        code_part = f"[{item.diagnosis_code}] " if item.diagnosis_code else ""
+                        render_statement_card(f"{code_part}{item.diagnosis} ({certainty})", item.source_segments, f"diag_{i}")
+                else:
+                    st.info("Nėra duomenų.")
+
+            # --- GYDYMAS ---
+            with st.expander("💊 Gydymas", expanded=exp_state):
+                if doc.treatment and doc.treatment.items:
+                    for i, item in enumerate(doc.treatment.items):
+                        render_statement_card(item.description, item.source_segments, f"gydymas_{i}")
+                else:
+                    st.info("Nėra duomenų.")
+
+            # --- TYRIMŲ PLANAS ---
+            with st.expander("📝 Tyrimų Planas", expanded=exp_state):
+                if doc.clinical_notes and doc.clinical_notes.tests_consultations_plan:
+                    for i, item in enumerate(doc.clinical_notes.tests_consultations_plan):
+                        render_statement_card(item.statement, item.source_segments, f"planas_{i}")
+                else:
+                    st.info("Nėra duomenų.")
+
+            # --- ALERGIJOS IR KITA ---
+            with st.expander("⚠️ Alergijos ir Kita", expanded=exp_state):
+                if doc.allergies:
+                    st.markdown("**Alergijos**")
+                    for i, allergy in enumerate(doc.allergies):
+                        render_statement_card(f"{allergy.description}", allergy.source_segments, f"allergy_{i}")
+
+                if doc.referral:
+                    st.markdown("**Siuntimas**")
+                    r = doc.referral
+                    st.write(f"Gydytojas: {r.referring_physician}")
+                    st.write(f"Įstaiga: {r.referring_institution}")
+                    st.write(f"Diagnozė: {r.referral_diagnosis}")
+
+                if doc.certificates:
+                    st.markdown("**Pažymos**")
+                    c = doc.certificates
+                    if c.disability_certificate:
+                        st.warning(f"Nedarbingumas: {c.disability_start_date} - {c.disability_end_date}")
+
+                if not doc.allergies and not doc.referral and not doc.certificates:
+                    st.info("Nėra duomenų.")
 
     elif st.session_state.transcript_data:
         if st.button("🚀 Pradėti Analizę", type="primary", use_container_width=True):
