@@ -171,9 +171,11 @@ if "scroll_id" not in st.session_state:
     st.session_state.scroll_id = "scroll-target-init"
 if "expanders_state" not in st.session_state:
     st.session_state.expanders_state = True  # True = expanded, False = collapsed
+if "analysis_in_progress" not in st.session_state:
+    st.session_state.analysis_in_progress = False
 
 # Header
-st.title("🏥 Medicininių Entitetų Išgavimas")
+st.title("🏥 Medicininių Esybių Išgavimas")
 
 # Layout
 left_col, right_col = st.columns([4, 5])
@@ -408,9 +410,16 @@ with right_col:
                     st.info("Nėra duomenų.")
 
     elif st.session_state.transcript_data:
-        if st.button("🚀 Pradėti Analizę", type="primary", use_container_width=True):
-             extractor = get_extractor()
-             if extractor:
+        is_analyzing = st.session_state.analysis_in_progress
+        btn_label = "⏳ Analizuojama..." if is_analyzing else "🚀 Pradėti Analizę"
+
+        if st.button(btn_label, type="primary", use_container_width=True, disabled=is_analyzing):
+            st.session_state.analysis_in_progress = True
+            st.rerun()
+
+        if is_analyzing:
+            extractor = get_extractor()
+            if extractor:
                 with st.spinner("Analizuojama..."):
                     try:
                         transcript_input = TranscriptInput(transcript=st.session_state.transcript_data)
@@ -419,8 +428,10 @@ with right_col:
                         result = loop.run_until_complete(extractor.extract(transcript_input))
                         loop.close()
                         st.session_state.extraction_result = result
-                        st.rerun()
                     except Exception as e:
                         st.error(f"Klaida: {str(e)}")
+                    finally:
+                        st.session_state.analysis_in_progress = False
+                        st.rerun()
     else:
         st.write("👈 Įkelkite duomenis kairėje.")
