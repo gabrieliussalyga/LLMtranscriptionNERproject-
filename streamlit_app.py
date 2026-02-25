@@ -13,6 +13,7 @@ from backend.config import get_settings
 from backend.services.gemini_extractor import GeminiExtractor
 from backend.services.openai_extractor import OpenAIExtractor
 from backend.models.transcript import TranscriptInput
+from backend.schemas.e025_flat import load_document_schema, SCHEMA_FILE_PATH
 
 # Page configuration
 st.set_page_config(
@@ -21,6 +22,24 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+# Simple login gate
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    st.title("Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        valid_user = os.environ.get("APP_USERNAME", "admin")
+        valid_pass = os.environ.get("APP_PASSWORD", "")
+        if username == valid_user and password == valid_pass:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Invalid username or password")
+    st.stop()
 
 # Custom CSS
 st.markdown("""
@@ -121,6 +140,25 @@ st.markdown("""
 # Load settings
 settings = get_settings()
 
+# --- Sidebar: Schema Viewer ---
+with st.sidebar:
+    st.header("Schema")
+    if st.button("Peržiūrėti schemą", use_container_width=True):
+        st.session_state.show_schema = True
+
+    if st.session_state.get("show_schema", False):
+        try:
+            schema = load_document_schema()
+            schema_json = json.dumps(schema, indent=2, ensure_ascii=False)
+            st.code(schema_json, language="json")
+            st.caption(f"Failas: {SCHEMA_FILE_PATH}")
+            if st.button("Uždaryti"):
+                st.session_state.show_schema = False
+                st.rerun()
+        except Exception as e:
+            st.error(f"Nepavyko įkelti schemos: {e}")
+
+
 def get_extractor():
     if settings.llm_provider == "openai":
         if not settings.openai_api_key:
@@ -162,6 +200,8 @@ if "transcript_data" not in st.session_state:
         if st.session_state.transcript_text:
             data = json.loads(st.session_state.transcript_text)
             st.session_state.transcript_data = data.get("transcript", data)
+        else:
+            st.session_state.transcript_data = None
     except:
         st.session_state.transcript_data = None
 
@@ -289,125 +329,234 @@ with left_col:
                 )
 
 # --- RIGHT COLUMN: Results ---
+# Dynamic UI based on schema
 with right_col:
     st.markdown("### Išgauti Duomenys")
-    
-    result = st.session_state.extraction_result
-    
-    if result:
-        doc = result.document
 
-        # Helper to render a clickable statement card
+    result = st.session_state.extraction_result
+
+    # Load current schema to determine which fields exist
+    current_schema = load_document_schema()
+    schema_fields = set(current_schema.get("properties", {}).keys())
+
+    if result:
+        doc = result.get("document", {})
+        refs = result.get("references", [])
+
+        # Build reference lookup: (field_name, value) -> source_segments
+        ref_lookup = {}
+        for ref in refs:
+            key = f"{ref['field_name']}::{ref['value']}"
+            ref_lookup[key] = ref["source_segments"]
+
+        def get_segments(field_name, value):
+            return ref_lookup.get(f"{field_name}::{value}", [])
+
         def render_statement_card(statement, segments, card_index):
             if st.button(statement, key=f"stmt_{card_index}_{st.session_state.scroll_id[-4:]}"):
                 if segments:
                     highlight_segments(segments)
                     st.rerun()
 
-        # Expand/Collapse All buttons
+        def render_statements(field_name, card_prefix):
+            if field_name not in schema_fields:
+                return False
+            items = doc.get(field_name) or []
+            if items:
+                for i, item in enumerate(items):
+                    stmt = item.get("statement", "") if isinstance(item, dict) else str(item)
+                    segs = get_segments(field_name, stmt)
+                    render_statement_card(stmt, segs, f"{card_prefix}_{i}")
+                return True
+            return False
+
+        def render_scalar(label, field_name, value, unit=""):
+            if field_name not in schema_fields:
+                return
+            if value is not None:
+                display = f"{value}{unit}"
+                segs = get_segments(field_name, str(value))
+                render_statement_card(f"{label}: {display}", segs, f"scalar_{field_name}")
+            else:
+                st.caption(f"{label}: -")
+
+        def render_bool(label, field_name):
+            if field_name not in schema_fields:
+                return
+            val = doc.get(field_name)
+            if val is not None:
+                render_statement_card(
+                    f"{label}: {'Taip' if val else 'Ne'}",
+                    get_segments(field_name, str(val)), f"bool_{field_name}"
+                )
+            else:
+                st.caption(f"{label}: -")
+
+        # Expand/Collapse buttons
         btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 2])
         with btn_col1:
-            if st.button("➕ Išskleisti", use_container_width=True):
+            if st.button("+ Išskleisti", use_container_width=True):
                 st.session_state.expanders_state = True
                 st.rerun()
         with btn_col2:
-            if st.button("➖ Sutraukti", use_container_width=True):
+            if st.button("- Sutraukti", use_container_width=True):
                 st.session_state.expanders_state = False
                 st.rerun()
 
         exp_state = st.session_state.expanders_state
 
-        # Create scrollable container for all categories
+        # --- UI GROUP CONFIGURATION ---
+        # Each group: (title, emoji, list of (field_name, label, unit_or_type))
+        # Types: "statements", "scalar", "bool", "allergies", "vaccinations"
+        UI_GROUPS = [
+            ("Vizito Informacija", "📋", [
+                ("date", "Data", "scalar", ""),
+                ("time", "Laikas", "scalar", ""),
+                ("status", "Būsena", "scalar", ""),
+                ("help_type", "Pagalbos tipas", "scalar", ""),
+                ("consultation_type", "Konsultacijos tipas", "scalar", ""),
+                ("physician", "Gydytojas", "statements", ""),
+                ("service_method", "Aptarnavimo ypatumai", "statements", ""),
+                ("record_number", "Įrašo numeris", "statements", ""),
+            ]),
+            ("Siuntimas", "📨", [
+                ("arrived_with_referral", "Atvyko su siuntimu", "bool", ""),
+                ("referring_institution", "Siuntusi įstaiga", "statements", ""),
+                ("referring_physician", "Siuntęs gydytojas", "statements", ""),
+                ("referral_diagnosis", "Siuntimo diagnozė", "statements", ""),
+            ]),
+            ("GMP", "🚑", [
+                ("arrived_by_ambulance", "Atvežtas GMP", "bool", ""),
+                ("ambulance_institution", "GMP įstaiga", "statements", ""),
+                ("ambulance_diagnosis", "GMP diagnozė", "statements", ""),
+            ]),
+            ("Nusiskundimai (Anamnezė)", "🗣️", [
+                ("complaints_anamnesis", None, "statements", ""),
+            ]),
+            ("Objektyvi Būklė", "🔬", [
+                ("objective_condition", None, "statements", ""),
+            ]),
+            ("Gyvybiniai Rodikliai", "❤️", [
+                ("systolic_bp", "Sistolinis", "scalar", " mmHg"),
+                ("diastolic_bp", "Diastolinis", "scalar", " mmHg"),
+                ("pulse", "Pulsas", "scalar", " k/min"),
+                ("breathing_rate", "Kvėpavimo dažnis", "scalar", " k/min"),
+                ("saturation", "Saturacija", "scalar", "%"),
+                ("temperature", "Temperatūra", "scalar", "°C"),
+                ("alcohol_level", "Alkoholis", "scalar", "‰"),
+            ]),
+            ("Kūno Matavimai", "📏", [
+                ("weight", "Svoris", "scalar", " kg"),
+                ("height", "Ūgis", "scalar", " cm"),
+                ("bmi", "KMI", "scalar", ""),
+                ("chest_circumference", "Krūtinės apimtis", "scalar", " cm"),
+                ("hip_circumference", "Klubų apimtis", "scalar", " cm"),
+                ("waist_circumference", "Juosmens apimtis", "scalar", " cm"),
+                ("head_circumference", "Galvos apimtis", "scalar", " cm"),
+            ]),
+            ("Diagnozės", "🏥", [
+                ("diagnosis", "Diagnozė", "statements", ""),
+                ("diagnosis_code", "Diagnozės kodas", "scalar", ""),
+                ("diagnosis_certainty", "Diagnozės tikrumas", "scalar", ""),
+                ("clinical_diagnosis", "Klinikinė diagnozė", "statements", ""),
+            ]),
+            ("Medikamentinis Gydymas", "💊", [
+                ("medication_treatment", None, "statements", ""),
+            ]),
+            ("Nemedikamentinis Gydymas", "🏥", [
+                ("non_medication_treatment", None, "statements", ""),
+            ]),
+            ("Receptai", "📋", [
+                ("prescriptions", None, "statements", ""),
+            ]),
+            ("Siuntimai", "📤", [
+                ("referrals", None, "statements", ""),
+            ]),
+            ("Rekomendacijos", "💡", [
+                ("recommendations", None, "statements", ""),
+            ]),
+            ("Tyrimų Planas", "📝", [
+                ("tests_consultations_plan", None, "statements", ""),
+            ]),
+            ("Atlikti Tyrimai", "🔬", [
+                ("performed_tests_consultations", None, "statements", ""),
+            ]),
+            ("Būklė Išrašant", "🏠", [
+                ("condition_on_discharge", None, "statements", ""),
+            ]),
+            ("Alergijos", "⚠️", [
+                ("allergies", None, "allergies", ""),
+            ]),
+            ("Skiepai", "💉", [
+                ("vaccinations", None, "vaccinations", ""),
+            ]),
+            ("Pažymos", "📄", [
+                ("disability_certificate", "Nedarbingumo pažymėjimas", "bool", ""),
+                ("maternity_certificate", "Nėštumo/gimdymo pažymėjimas", "bool", ""),
+                ("medical_certificate", "Medicininė pažyma", "bool", ""),
+                ("disability_number", "Pažymėjimo numeris", "statements", ""),
+                ("disability_start_date", "Nedarbingumas nuo", "scalar", ""),
+                ("disability_end_date", "Nedarbingumas iki", "scalar", ""),
+                ("disability_description", "Nedarbingumo aprašymas", "statements", ""),
+            ]),
+            ("Apribojimai", "🚫", [
+                ("cannot_drive", "Draudimas vairuoti", "bool", ""),
+                ("cannot_drive_date", "Draudimo vairuoti data", "scalar", ""),
+                ("cannot_use_weapon", "Draudimas naudoti ginklą", "bool", ""),
+            ]),
+            ("Pastabos", "📌", [
+                ("notes", None, "statements", ""),
+            ]),
+        ]
+
         results_container = st.container(height=620)
         with results_container:
+            for group_title, emoji, fields in UI_GROUPS:
+                # Check if ANY field in the group exists in schema
+                group_fields_in_schema = [f[0] for f in fields if f[0] in schema_fields]
+                if not group_fields_in_schema:
+                    continue  # Skip entire group if no fields exist
 
-            # --- VIZITAS IR RODIKLIAI ---
-            with st.expander("📋 Vizitas ir Rodikliai", expanded=exp_state):
-                col1, col2 = st.columns(2)
-                with col1:
-                    if doc.visit:
-                        st.markdown("**Vizito Informacija**")
-                        st.write(f"📅 {doc.visit.date or '-'}")
-                        st.write(f"🕒 {doc.visit.time or '-'}")
-                        st.write(f"👨‍⚕️ {doc.visit.physician or '-'}")
+                with st.expander(f"{emoji} {group_title}", expanded=exp_state):
+                    has_content = False
+                    for field_name, label, field_type, unit in fields:
+                        if field_name not in schema_fields:
+                            continue
 
-                with col2:
-                    if doc.body_measurements:
-                        st.markdown("**Kūno Matavimai**")
-                        bm = doc.body_measurements
-                        if bm.weight: st.write(f"⚖️ {bm.weight} kg")
-                        if bm.height: st.write(f"📏 {bm.height} cm")
-                        if bm.bmi: st.write(f"📊 KMI: {bm.bmi}")
+                        if field_type == "statements":
+                            if render_statements(field_name, field_name):
+                                has_content = True
+                            elif label:
+                                st.caption(f"{label}: -")
+                        elif field_type == "scalar":
+                            render_scalar(label, field_name, doc.get(field_name), unit)
+                            if doc.get(field_name) is not None:
+                                has_content = True
+                        elif field_type == "bool":
+                            render_bool(label, field_name)
+                            if doc.get(field_name) is not None:
+                                has_content = True
+                        elif field_type == "allergies":
+                            allergies = doc.get("allergies") or []
+                            if allergies:
+                                has_content = True
+                                type_labels = {"vaistai": "Vaistams", "maistas": "Maistui", "kita": "Kita"}
+                                for i, a in enumerate(allergies):
+                                    desc = a.get("description", "")
+                                    t = type_labels.get(a.get("type", ""), a.get("type", ""))
+                                    render_statement_card(f"{t}: {desc}", get_segments("allergies", desc), f"allergy_{i}")
+                        elif field_type == "vaccinations":
+                            vaccinations = doc.get("vaccinations") or []
+                            if vaccinations:
+                                has_content = True
+                                for i, v in enumerate(vaccinations):
+                                    name = v.get("name", "")
+                                    date = v.get("date", "")
+                                    lbl = f"{name} ({date})" if date else name
+                                    render_statement_card(lbl, get_segments("vaccinations", name), f"vacc_{i}")
 
-                if doc.vital_signs and doc.vital_signs.items:
-                    st.markdown("**Gyvybiniai Rodikliai**")
-                    for i, item in enumerate(doc.vital_signs.items):
-                        render_statement_card(f"{item.name} {item.value}", item.source_segments, f"vital_{i}")
-
-            # --- NUSISKUNDIMAI (ANAMNEZĖ) ---
-            with st.expander("🗣️ Nusiskundimai (Anamnezė)", expanded=exp_state):
-                if doc.clinical_notes and doc.clinical_notes.complaints_anamnesis:
-                    for i, item in enumerate(doc.clinical_notes.complaints_anamnesis):
-                        render_statement_card(item.statement, item.source_segments, f"anamneze_{i}")
-                else:
-                    st.info("Nėra duomenų.")
-
-            # --- OBJEKTYVI BŪKLĖ ---
-            with st.expander("🔬 Objektyvi Būklė", expanded=exp_state):
-                if doc.clinical_notes and doc.clinical_notes.objective_condition:
-                    for i, item in enumerate(doc.clinical_notes.objective_condition):
-                        render_statement_card(item.statement, item.source_segments, f"objektyvi_{i}")
-                else:
-                    st.info("Nėra duomenų.")
-
-            # --- DIAGNOZĖS ---
-            with st.expander("🏥 Diagnozės", expanded=exp_state):
-                if doc.diagnosis and doc.diagnosis.items:
-                    for i, item in enumerate(doc.diagnosis.items):
-                        certainty = {"+": "Patvirtinta", "-": "Atmesta", "0": "Įtariama"}.get(item.diagnosis_certainty, item.diagnosis_certainty)
-                        code_part = f"[{item.diagnosis_code}] " if item.diagnosis_code else ""
-                        render_statement_card(f"{code_part}{item.diagnosis} ({certainty})", item.source_segments, f"diag_{i}")
-                else:
-                    st.info("Nėra duomenų.")
-
-            # --- GYDYMAS ---
-            with st.expander("💊 Gydymas", expanded=exp_state):
-                if doc.treatment and doc.treatment.items:
-                    for i, item in enumerate(doc.treatment.items):
-                        render_statement_card(item.description, item.source_segments, f"gydymas_{i}")
-                else:
-                    st.info("Nėra duomenų.")
-
-            # --- TYRIMŲ PLANAS ---
-            with st.expander("📝 Tyrimų Planas", expanded=exp_state):
-                if doc.clinical_notes and doc.clinical_notes.tests_consultations_plan:
-                    for i, item in enumerate(doc.clinical_notes.tests_consultations_plan):
-                        render_statement_card(item.statement, item.source_segments, f"planas_{i}")
-                else:
-                    st.info("Nėra duomenų.")
-
-            # --- ALERGIJOS IR KITA ---
-            with st.expander("⚠️ Alergijos ir Kita", expanded=exp_state):
-                if doc.allergies:
-                    st.markdown("**Alergijos**")
-                    for i, allergy in enumerate(doc.allergies):
-                        render_statement_card(f"{allergy.description}", allergy.source_segments, f"allergy_{i}")
-
-                if doc.referral:
-                    st.markdown("**Siuntimas**")
-                    r = doc.referral
-                    st.write(f"Gydytojas: {r.referring_physician}")
-                    st.write(f"Įstaiga: {r.referring_institution}")
-                    st.write(f"Diagnozė: {r.referral_diagnosis}")
-
-                if doc.certificates:
-                    st.markdown("**Pažymos**")
-                    c = doc.certificates
-                    if c.disability_certificate:
-                        st.warning(f"Nedarbingumas: {c.disability_start_date} - {c.disability_end_date}")
-
-                if not doc.allergies and not doc.referral and not doc.certificates:
-                    st.info("Nėra duomenų.")
+                    if not has_content:
+                        st.caption("-")
 
     elif st.session_state.transcript_data:
         is_analyzing = st.session_state.analysis_in_progress

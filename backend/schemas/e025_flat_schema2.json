@@ -1,0 +1,322 @@
+{
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Ambulatorinio apsilankymo data. Triggers: data | šiandien | konsultacijos data"
+    },
+    "time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Ambulatorinio apsilankymo laikas formatu VV:MM (24 val. formatas). Triggers: laikas | valanda"
+    },
+    "status": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "darbinis",
+        "galutinis",
+        null
+      ],
+      "description": "Įrašo būsena: 'darbinis' arba 'galutinis'"
+    },
+    "physician": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie gydytoją"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Konsultaciją atliekančio gydytojo vardas, pavardė ir pareigos. Triggers: gydytojas | daktaras"
+    },
+    "help_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "butinoji",
+        "planine",
+        "kita",
+        null
+      ],
+      "description": "Pagalbos tipas: 'butinoji' | 'planine' | 'kita'"
+    },
+    "consultation_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "tiesioginis",
+        "nuotolinis",
+        "kitas",
+        null
+      ],
+      "description": "Konsultacijos pobūdis: 'tiesioginis' | 'nuotolinis' | 'kitas'"
+    },
+    "clinical_diagnosis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie klinikinę diagnozę"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Klinikinė diagnozė su detaliu aprašymu, simptomais ir klinikiniais požymiais"
+    },
+    "complaints_anamnesis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie nusiskundimą ar anamnezę"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Nusiskundimai ir ligos anamnezė. Triggers: skundžiasi | jaučia | skauda | anamnezėje"
+    },
+    "systolic_bp": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Sistolinis kraujospūdis mmHg. Triggers: kraujospūdis | sistolinis"
+    },
+    "diastolic_bp": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Diastolinis kraujospūdis mmHg. Triggers: kraujospūdis | diastolinis"
+    },
+    "pulse": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Pulsas k/min. Triggers: pulsas | širdies ritmas | ŠSD"
+    },
+    "breathing_rate": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Kvėpavimo dažnis k/min. Triggers: kvėpavimas | kvėpavimo dažnis"
+    },
+    "saturation": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Deguonies saturacija SpO2 %. Triggers: saturacija | SpO2"
+    },
+    "temperature": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Kūno temperatūra °C. Triggers: temperatūra | karščiuoja"
+    },
+    "weight": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Kūno svoris kg. Triggers: svoris | kg"
+    },
+    "height": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Ūgis cm. Triggers: ūgis | cm"
+    },
+    "bmi": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Kūno masės indeksas kg/m²"
+    },
+    "chest_circumference": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Krūtinės apimtis cm"
+    },
+    "hip_circumference": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Klubų apimtis cm"
+    },
+    "waist_circumference": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Juosmens apimtis cm"
+    },
+    "objective_condition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie objektyvią būklę"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Objektyvus paciento būklės įvertinimas apžiūros metu. Triggers: objektyviai | apžiūros metu"
+    },
+    "tests_consultations_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie planuojamą tyrimą ar konsultaciją"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Planuojami tyrimai ir konsultacijos. Triggers: planuoju | reikia atlikti"
+    },
+    "performed_tests_consultations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie atliktą tyrimą ar konsultaciją. Tai nera gyvybiniai rodikliai, kaip temperatūra, pulsas, kraujospūdis ir taip toliau. Tai yra kraujo tyrimai ir kiti laboratoriniai."
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Atliktų tyrimų rezultatai ir konsultacijų išvados. Triggers: atlikta | rezultatai"
+    },
+    "prescriptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie receptą"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Išrašyti e-receptai. Triggers: išrašau receptą | receptas | e-receptas"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys apie rekomendaciją. Rekomendacijos gali būti nereceptiniai vaistai"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Rekomendacijos pacientui. Triggers: rekomenduoju | patarimai"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas teiginys - pastaba"
+          }
+        },
+        "required": [
+          "statement"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Papildoma svarbi informacija. Triggers: pastaba | papildomai"
+    }
+  },
+  "required": [
+    "date",
+    "time",
+    "status",
+    "physician",
+    "help_type",
+    "consultation_type",
+    "complaints_anamnesis",
+    "systolic_bp",
+    "diastolic_bp",
+    "pulse",
+    "breathing_rate",
+    "saturation",
+    "temperature",
+    "weight",
+    "height",
+    "bmi",
+    "chest_circumference",
+    "hip_circumference",
+    "waist_circumference",
+    "objective_condition",
+    "tests_consultations_plan",
+    "performed_tests_consultations",
+    "prescriptions",
+    "recommendations",
+    "notes"
+    ],
+  "additionalProperties": false
+}

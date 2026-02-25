@@ -1,0 +1,257 @@
+{
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": ["string", "null"],
+      "description": "Ambulatorinio apsilankymo data, jei tekste aiškiai nurodyta (pvz., '2026-02-06' arba '2026.02.06'). Neišvedinėti iš konteksto."
+    },
+    "time": {
+      "type": ["string", "null"],
+      "description": "Ambulatorinio apsilankymo laikas formatu VV:MM (24 val.), jei tekste aiškiai nurodyta. Negalvoti/nespėti."
+    },
+
+    "status": {
+      "type": ["string", "null"],
+      "enum": ["darbinis", "galutinis", null],
+      "description": "Įrašo būsena, jei aiškiai nurodyta: 'darbinis' arba 'galutinis'. Dažnai laisvame tekste nebūna."
+    },
+    "physician": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Gydytojo vardas/pavardė ir (jei yra) pareigos, kaip parašyta tekste."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Konsultaciją atlikęs gydytojas/specialistas (jei tekste aiškiai nurodyta)."
+    },
+    "help_type": {
+      "type": ["string", "null"],
+      "enum": ["butinoji", "planine", "kita", null],
+      "description": "Pagalbos tipas, jei aiškiai nurodyta: 'butinoji', 'planine' arba 'kita'. Neišvedinėti iš konteksto."
+    },
+    "consultation_type": {
+      "type": ["string", "null"],
+      "enum": ["tiesioginis", "nuotolinis", "kitas", null],
+      "description": "Konsultacijos pobūdis, jei aiškiai nurodyta: 'tiesioginis' (gyvai), 'nuotolinis' arba 'kitas'."
+    },
+
+    "diagnosis": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Šio vizito metu aktuali diagnozė (dabartinė būklė), kaip parašyta tekste."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Aktualios (šiam vizitui) diagnozės. Praeities/buvusios ligos dažnai būna anamnezėje, todėl jų čia nepritempinėti, jei aiškiai nenurodyta kaip dabartinė diagnozė."
+    },
+    "diagnosis_code": {
+      "type": ["string", "null"],
+      "description": "TLK-10-AM / ICD diagnozės kodas (pvz., 'J45.0'), jei tekste aiškiai pateiktas. Kodų neišgalvoti iš aprašymo."
+    },
+    "diagnosis_certainty": {
+      "type": ["string", "null"],
+      "enum": ["+", "-", "0", null],
+      "description": "Diagnozės tikrumas, jei aiškiai nurodyta: '+' patvirtinta, '-' atmesta, '0' įtariama."
+    },
+
+    "clinical_diagnosis": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Klinikinio įvertinimo / klinikinės diagnozės aprašymo teiginys (gali būti detalesnis nei diagnozė)."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Klinikinis įvertinimas/diagnozės aprašymas: simptomai, klinikiniai požymiai, gydytojo interpretacija (laisvas tekstas)."
+    },
+    "complaints_anamnesis": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas nusiskundimų arba anamnezės fragmentas (sakinys/teiginys) iš teksto."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Nusiskundimai ir anamnezė (laisvas tekstas). Čia dažnai būna buvusios ligos, ligos trukmė, šeiminė anamnezė, gyvensena/ekspozicijos, alergijos/skiepas (jei kitur nefiksuota). Neišgalvoti faktų – traukti tik tai, kas parašyta."
+    },
+
+    "systolic_bp": {
+      "type": ["integer", "null"],
+      "description": "Sistolinis kraujospūdis (mmHg), jei aiškiai pateiktas (gali būti ir laisvame tekste)."
+    },
+    "diastolic_bp": {
+      "type": ["integer", "null"],
+      "description": "Diastolinis kraujospūdis (mmHg), jei aiškiai pateiktas (gali būti ir laisvame tekste)."
+    },
+    "pulse": {
+      "type": ["integer", "null"],
+      "description": "Pulsas / ŠSD (k./min.), jei aiškiai pateiktas (gali būti ir laisvame tekste)."
+    },
+    "breathing_rate": {
+      "type": ["integer", "null"],
+      "description": "Kvėpavimo dažnis (k./min.), jei aiškiai pateiktas."
+    },
+    "saturation": {
+      "type": ["integer", "null"],
+      "description": "Deguonies saturacija SpO2 (%), jei aiškiai pateikta."
+    },
+    "temperature": {
+      "type": ["number", "null"],
+      "description": "Kūno temperatūra (°C), jei aiškiai pateikta."
+    },
+    "weight": {
+      "type": ["number", "null"],
+      "description": "Kūno masė / svoris (kg), jei aiškiai pateikta."
+    },
+    "height": {
+      "type": ["integer", "null"],
+      "description": "Ūgis (cm), jei aiškiai pateikta."
+    },
+    "bmi": {
+      "type": ["number", "null"],
+      "description": "Kūno masės indeksas (KMI, kg/m²), jei aiškiai pateiktas arba aiškiai įvardytas."
+    },
+
+    "objective_condition": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas objektyvios apžiūros radinys (ką gydytojas mato/užfiksuoja)."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Objektyvus būklės įvertinimas (apžiūros radiniai). Tai nėra paciento nuomonė – tik tai, ką gydytojas aprašo."
+    },
+    "tests_consultations_plan": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas planuojamas tyrimas ar konsultacija (paskirta/rekomenduota atlikti)."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Tyrimų ir konsultacijų planas (ką gydytojas paskyrė/rekomendavo). Svarbu: planas ≠ atlikta."
+    },
+    "performed_tests_consultations": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas atlikto tyrimo rezultatas arba konsultacijos išvada (kas jau įvyko). Tai nėra gyvybinių rodyklių rodmenys, kaip pulsas, kraujo spaudimas ir taip toliau. Tai laboratorijose atlikti testai arba kitokie tyrimai, kaip Rentgenas arba MRT ir taip toliau."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Atliktų tyrimų rezultatai ir konsultacijų išvados (kas jau padaryta). Gali būti pateikta tik vizitui aktuali dalis; dažnai apibendrinta (kartais be vienetų)."
+    },
+    "prescriptions": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas e-recepto įrašas (kaip parašyta tekste)."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Išrašyti e-receptai (dažnai automatinis įrašas E025, kai parašomas receptas). Nereceptinių patarimų nelaikyti receptais."
+    },
+    "recommendations": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas rekomendacijos/plano teiginys (gali būti ir nereceptiniai vaistai)."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Rekomendacijos ir planas: gyvensena, kontrolės vizitas, nereceptiniai vaistai ir kt. Tai gydytojo planas – neįrodo, kad pacientas taip ir darė."
+    },
+    "notes": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": {
+            "type": "string",
+            "description": "Vienas pastabos teiginys."
+          }
+        },
+        "required": ["statement"],
+        "additionalProperties": false
+      },
+      "description": "Papildomos pastabos. Dažnai būna automatinis tekstas (pvz., 'pacientas informuotas...') arba vidiniai priminimai/pamąstymai – laikyti mažesnio patikimumo klinikine informacija."
+    }
+  },
+  "required": [
+    "date",
+    "time",
+    "status",
+    "physician",
+    "help_type",
+    "consultation_type",
+    "diagnosis",
+    "diagnosis_code",
+    "diagnosis_certainty",
+    "clinical_diagnosis",
+    "complaints_anamnesis",
+    "systolic_bp",
+    "diastolic_bp",
+    "pulse",
+    "breathing_rate",
+    "saturation",
+    "temperature",
+    "weight",
+    "height",
+    "bmi",
+    "objective_condition",
+    "tests_consultations_plan",
+    "performed_tests_consultations",
+    "prescriptions",
+    "recommendations",
+    "notes"
+  ],
+  "additionalProperties": false
+}

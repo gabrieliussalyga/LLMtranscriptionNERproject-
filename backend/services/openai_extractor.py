@@ -1,4 +1,7 @@
-"""OpenAI-based medical entity extraction service."""
+"""OpenAI-based medical entity extraction service.
+
+TEMPORARY: Modified to use flat E025 schema for testing.
+"""
 
 import json
 import logging
@@ -6,8 +9,12 @@ from typing import Any, Dict
 
 from openai import AsyncOpenAI
 
-from backend.models.e025_document import E025Document
-from backend.models.extraction_result import EntityReference, ExtractionResult
+# --- ORIGINAL imports (commented out for testing) ---
+# from backend.models.e025_document import E025Document
+# from backend.models.extraction_result import EntityReference, ExtractionResult
+# --- END ORIGINAL ---
+
+from backend.schemas.e025_flat import build_extraction_schema
 from backend.models.transcript import TranscriptInput
 from backend.prompts.extraction_prompt import SYSTEM_PROMPT, build_user_prompt
 
@@ -17,7 +24,7 @@ logger = logging.getLogger(__name__)
 class OpenAIExtractor:
     """Service for extracting medical entities using OpenAI GPT."""
 
-    def __init__(self, api_key: str, model_name: str = "gpt-5.2"):
+    def __init__(self, api_key: str, model_name: str = "gpt-4o"):
         """Initialize the OpenAI extractor.
 
         Args:
@@ -45,7 +52,7 @@ class OpenAIExtractor:
 
         if "type" in schema and schema["type"] == "object":
             schema["additionalProperties"] = False
-            
+
             properties = schema.get("properties", {})
             if properties:
                 required = schema.get("required", [])
@@ -54,40 +61,46 @@ class OpenAIExtractor:
                     if prop_name not in required:
                         required.append(prop_name)
                 schema["required"] = required
-            
+
             # Recurse into properties
             for prop in properties.values():
                 self._make_schema_strict(prop)
-                
+
             # Recurse into definitions
             defs = schema.get("$defs", {})
             for def_schema in defs.values():
                 self._make_schema_strict(def_schema)
-                
+
         elif "type" in schema and schema["type"] == "array":
             items = schema.get("items", {})
             self._make_schema_strict(items)
-            
+
         elif "anyOf" in schema:
             for sub_schema in schema["anyOf"]:
                 self._make_schema_strict(sub_schema)
-                
+
         return schema
 
-    async def extract(self, transcript_input: TranscriptInput) -> ExtractionResult:
+    # --- TEMPORARY: returns raw dict instead of ExtractionResult ---
+    async def extract(self, transcript_input: TranscriptInput) -> Dict[str, Any]:
         """Extract medical entities from a transcript.
 
         Args:
             transcript_input: The transcript to process
 
         Returns:
-            ExtractionResult with document and references
+            Raw dict with 'document' and 'references' keys
         """
         user_prompt = build_user_prompt(transcript_input.transcript)
-        
-        # Prepare strict schema
-        json_schema = ExtractionResult.model_json_schema()
-        strict_schema = self._make_schema_strict(json_schema)
+
+        # --- ORIGINAL (Pydantic schema) ---
+        # json_schema = ExtractionResult.model_json_schema()
+        # strict_schema = self._make_schema_strict(json_schema)
+        # --- END ORIGINAL ---
+
+        # TEMPORARY: Use flat schema (loaded from file, already strict-compatible)
+        strict_schema = build_extraction_schema()
+        self._make_schema_strict(strict_schema)
 
         try:
             response = await self.client.chat.completions.create(
@@ -112,8 +125,12 @@ class OpenAIExtractor:
             logger.error(f"OpenAI API error: {type(e).__name__}: {e}")
             raise
 
-        result_json = self._parse_response(response_text)
-        return self._build_extraction_result(result_json)
+        return self._parse_response(response_text)
+
+        # --- ORIGINAL (Pydantic validation) ---
+        # result_json = self._parse_response(response_text)
+        # return self._build_extraction_result(result_json)
+        # --- END ORIGINAL ---
 
     def _parse_response(self, response_text: str) -> Dict[str, Any]:
         """Parse the JSON response from OpenAI."""
@@ -124,16 +141,18 @@ class OpenAIExtractor:
             logger.debug(f"Response text: {response_text}")
             raise ValueError(f"Invalid JSON response from OpenAI: {e}")
 
-    def _build_extraction_result(self, result_json: Dict[str, Any]) -> ExtractionResult:
-        """Build an ExtractionResult from the parsed JSON."""
-        document_data = result_json.get("document", {})
-        references_data = result_json.get("references", [])
-
-        document = E025Document.model_validate(document_data)
-
-        references = [
-            EntityReference.model_validate(ref)
-            for ref in references_data
-        ]
-
-        return ExtractionResult(document=document, references=references)
+    # --- ORIGINAL (kept but unused during testing) ---
+    # def _build_extraction_result(self, result_json: Dict[str, Any]) -> ExtractionResult:
+    #     """Build an ExtractionResult from the parsed JSON."""
+    #     document_data = result_json.get("document", {})
+    #     references_data = result_json.get("references", [])
+    #
+    #     document = E025Document.model_validate(document_data)
+    #
+    #     references = [
+    #         EntityReference.model_validate(ref)
+    #         for ref in references_data
+    #     ]
+    #
+    #     return ExtractionResult(document=document, references=references)
+    # --- END ORIGINAL ---

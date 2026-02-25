@@ -1,11 +1,17 @@
-"""API routes for medical entity extraction."""
+"""API routes for medical entity extraction.
 
-from typing import Union
+TEMPORARY: Modified to return raw dict instead of ExtractionResult model.
+"""
+
+from typing import Any, Dict, Union
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 
 from backend.config import Settings, get_settings
-from backend.models.extraction_result import ExtractionResult
+# --- ORIGINAL import (commented out for testing) ---
+# from backend.models.extraction_result import ExtractionResult
+# --- END ORIGINAL ---
 from backend.models.transcript import TranscriptInput
 from backend.services.gemini_extractor import GeminiExtractor
 from backend.services.openai_extractor import OpenAIExtractor
@@ -37,18 +43,27 @@ def get_extractor(settings: Settings = Depends(get_settings)) -> Union[OpenAIExt
         )
 
 
-@router.post("/extract", response_model=ExtractionResult)
+# --- ORIGINAL route (commented out for testing) ---
+# @router.post("/extract", response_model=ExtractionResult)
+# async def extract_entities(
+#     transcript: TranscriptInput,
+#     extractor: GeminiExtractor = Depends(get_extractor)
+# ) -> ExtractionResult:
+# --- END ORIGINAL ---
+
+# TEMPORARY: Return raw dict
+@router.post("/extract")
 async def extract_entities(
     transcript: TranscriptInput,
-    extractor: GeminiExtractor = Depends(get_extractor)
-) -> ExtractionResult:
+    extractor: Union[OpenAIExtractor, GeminiExtractor] = Depends(get_extractor)
+) -> Dict[str, Any]:
     """Extract medical entities from a transcript.
 
     Args:
         transcript: The transcript input containing segments
 
     Returns:
-        ExtractionResult with the extracted E025 document and references
+        Raw dict with document and references
     """
     try:
         result = await extractor.extract(transcript)
